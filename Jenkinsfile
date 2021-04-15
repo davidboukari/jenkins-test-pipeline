@@ -3,7 +3,6 @@ pipeline
   agent any
   stages
   {
-
     stage('Notification Email')
     {
        steps
