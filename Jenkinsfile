@@ -3,16 +3,31 @@ pipeline
   agent any
   stages
   {
-    // Send an email
-    emailext body: "From jenkins msg...", subject: "From jenkins start job ...", to: 'root@localhost' 
-    
-    // Send to Mattermost webhook
-    mattermostSend (
-          color: "#2A42EE",
-          channel: 'devops',
-          endpoint: 'http://192.168.0.133:8065/hooks/uwfu8ohdojyi9gbf1gtykkyzeo', 
-          message: "Hello from jenkins"
-    ) 
+  
+
+
+    stage('Notification Email')
+    {
+       steps
+       { 
+         // Send an email
+         emailext body: "From jenkins msg...", subject: "From jenkins start job ...", to: 'root@localhost' 
+       } 
+    }
+
+    stage('Notification Mattermost')
+    {
+       steps
+       { 
+         // Send to Mattermost webhook
+          mattermostSend (
+            color: "#2A42EE",
+            channel: 'devops',
+            endpoint: 'http://192.168.0.133:8065/hooks/uwfu8ohdojyi9gbf1gtykkyzeo', 
+            message: "Hello from jenkins"
+          ) 
+       } 
+    }
 
 /*    
     stage('GIT')
