@@ -18,7 +18,7 @@ pipeline
        { 
          // Send to Mattermost webhook
           mattermostSend (
-            color: "#2A42EE",
+            color: "#2A42EA",
             channel: 'devops',
             endpoint: 'http://192.168.0.133:8065/hooks/uwfu8ohdojyi9gbf1gtykkyzeo', 
             message: "Hello from jenkins pipeline --"
