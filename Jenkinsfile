@@ -24,7 +24,7 @@ pipeline
             color: "#2A42EE",
             channel: 'devops',
             endpoint: 'http://192.168.0.133:8065/hooks/uwfu8ohdojyi9gbf1gtykkyzeo', 
-            message: "Hello from jenkins"
+            message: "Hello from jenkins pipeline --"
           ) 
        } 
     }
