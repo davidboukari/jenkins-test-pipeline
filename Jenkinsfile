@@ -11,7 +11,7 @@ pipeline
        steps
        { 
          // Send an email
-         emailext body: "From jenkins msg...", subject: "From jenkins start job ...", to: ${params.mail_to}" 
+         emailext body: "From jenkins msg...", subject: "From jenkins start job ...", to: ${mail_to}" 
        } 
     }
 
