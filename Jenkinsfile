@@ -9,11 +9,18 @@ pipeline
        steps
        { 
          echo "Send Notification"
-         echo "Title: ${mail_title}"
-         echo "To: ${mail_to}"
-         echo "Message: ${mail_message}"
-         // Send an email
-         emailext body: "${mail_message}", subject: "${mail_title}", to: "${mail_to}"
+         echo "Title: ${env.mail_title}"
+         echo "To: ${env.mail_to}"
+         echo "Message: ${env.mail_message}"
+         if( ${env.mail_message} != '' )
+         {
+           // Send an email
+           emailext body: "${env.mail_message}", subject: "${env.mail_title}", to: "${env.mail_to}"
+         }
+         else
+         {
+           echo "The body of the message is empty => Nothing to send"
+         }
        } 
     }
 
