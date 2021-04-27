@@ -8,8 +8,12 @@ pipeline
     {
        steps
        { 
+         echo "Send Notification"
+         echo "Title: ${mail_title}"
+         echo "To: ${mail_to}"
+         echo "Message: ${mail_message}"
          // Send an email
-         emailext body: "From jenkins msg...", subject: "From jenkins start job ...", to: "${mail_to}"
+         emailext body: "${mail_message}", subject: "${mail_subject}", to: "${mail_to}"
        } 
     }
 
