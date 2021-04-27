@@ -13,8 +13,8 @@ pipeline
          echo "To: ${env.mail_to}"
          echo "Message: ${env.mail_message}"
          sh "printenv"
-/*
-         if( env.mail_message )
+
+         if( env.mail_message != "No message")
          {
            // Send an email
            emailext body: "${env.mail_message}", subject: "${env.mail_title}", to: "${env.mail_to}"
@@ -23,7 +23,7 @@ pipeline
          {
            echo "The body of the message is empty => Nothing to send"
          }
-*/
+
        } 
     }
 
