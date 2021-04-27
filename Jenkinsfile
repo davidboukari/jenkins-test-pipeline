@@ -13,7 +13,7 @@ pipeline
          echo "To: ${mail_to}"
          echo "Message: ${mail_message}"
          // Send an email
-         emailext body: "${mail_message}", subject: "${mail_subject}", to: "${mail_to}"
+         emailext body: "${mail_message}", subject: "${mail_title}", to: "${mail_to}"
        } 
     }
 
