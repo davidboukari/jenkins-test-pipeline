@@ -9,15 +9,15 @@ pipeline
        steps
        { 
          echo "Send Notification"
-         echo "Title: ${env.mail_title}"
-         echo "To: ${env.mail_to}"
-         echo "Message: ${env.mail_message}"
+         echo "Title: ${env.MAIL_SUBJECT}"
+         echo "To: ${env.MAIL_TO}"
+         echo "Message: ${env.MAIL_MESSAGE}"
          sh "printenv"
 
-         if( env.mail_message != "No message")
+         if( env.MAIL_MESSAGE != "No message")
          {
            // Send an email
-           emailext body: "${env.mail_message}", subject: "${env.mail_title}", to: "${env.mail_to}"
+           emailext body: "${env.MAIL_MESSAGE}", subject: "${env.MAIL_SUBJECT}", to: "${env.MAIL_TO}"
          }
          else
          {
