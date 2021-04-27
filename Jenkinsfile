@@ -12,6 +12,8 @@ pipeline
          echo "Title: ${env.mail_title}"
          echo "To: ${env.mail_to}"
          echo "Message: ${env.mail_message}"
+         sh "printenv"
+/*
          if( env.mail_message )
          {
            // Send an email
@@ -21,6 +23,7 @@ pipeline
          {
            echo "The body of the message is empty => Nothing to send"
          }
+*/
        } 
     }
 
