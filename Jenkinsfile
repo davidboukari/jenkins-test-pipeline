@@ -12,7 +12,7 @@ pipeline
          echo "Title: ${env.mail_title}"
          echo "To: ${env.mail_to}"
          echo "Message: ${env.mail_message}"
-         if( "".equals("${env.mail_message}") )
+         if( ${env.mail_message} )
          {
            // Send an email
            emailext body: "${env.mail_message}", subject: "${env.mail_title}", to: "${env.mail_to}"
