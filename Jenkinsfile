@@ -32,7 +32,7 @@ pipeline
          echo "Message: ${env.MAIL_MESSAGE}"
          sh "printenv"
 
-         if( ${env.MAIL_MESSAGE} != "No message")
+         if( !${env.MAIL_MESSAGE}.equals("No message") )
          {
            // Send an email
            emailext body: "${env.MAIL_MESSAGE}", subject: "${env.MAIL_SUBJECT}", to: "${env.MAIL_TO}"
