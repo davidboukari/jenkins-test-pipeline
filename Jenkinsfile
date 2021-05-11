@@ -31,17 +31,18 @@ pipeline
          echo "To: ${env.MAIL_TO}"
          echo "Message: ${env.MAIL_MESSAGE}"
          sh "printenv"
-
-         if( !${env.MAIL_MESSAGE}.equals("No message") )
-         {
-           // Send an email
-           emailext body: "${env.MAIL_MESSAGE}", subject: "${env.MAIL_SUBJECT}", to: "${env.MAIL_TO}"
+         script
+         { 
+           if( !${env.MAIL_MESSAGE}.equals("No message") )
+           {
+             // Send an email
+             emailext body: "${env.MAIL_MESSAGE}", subject: "${env.MAIL_SUBJECT}", to: "${env.MAIL_TO}"
+           }
+           else
+           {
+             echo "The body of the message is empty => Nothing to send"
+           }
          }
-         else
-         {
-           echo "The body of the message is empty => Nothing to send"
-         }
-
        } 
     }
 /*
