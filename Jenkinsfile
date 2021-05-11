@@ -3,7 +3,25 @@ pipeline
   agent any
   stages
   {
-    
+    stage('Sonarqube')
+    {
+      environment
+      {
+        scannerHome = tool 'SonarQubeScanner'
+      }
+      steps
+      {
+        withSonarQubeEnv('sonarqube-jenkins-test-pipeline')
+        {
+          sh "${scannerHome}/bin/sonar-scanner"
+        }
+        timeout(time: 10, unit: 'MINUTES')
+        {
+          waitForQualityGate abortPipeline: true
+        }
+      }
+    }  
+   
     stage('Notification Email')
     {
        steps
@@ -26,7 +44,7 @@ pipeline
 
        } 
     }
-
+/*
     stage('Notification Mattermost')
     {
        steps
@@ -40,7 +58,7 @@ pipeline
           ) 
        } 
     }
-
+*/
 /*    
     stage('GIT')
     {
