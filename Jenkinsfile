@@ -37,12 +37,19 @@ pipeline
               readFile('server_mail.csv').split('\n').eachWithIndex
               {
                 line, count -> def fields = line.split(';')
-                map_all_server[fields[0]] = fields
+                try
+                {
+                  map_all_server[fields[0]] = fields
+                }
+                catch( Exception e )
+                {
+                  println e
+                } 
               }
             }
             else
             {
-              echo ' Machines.csv Not found. Failing.'
+              error('Aborting: Machines.csv Not found. Failing.')
             }
             String param_server_list="srv,Code,Timestamp\nmyserver5,CODEA2,2021-05-11T12:37:42,(60%)\nmysever4,CODEA2,2021-05-11T12:39:47,(60%)\nmyserver3,CODEA2,2021-05-11T12:33:48,(60%)\nmyserver10,CODEA2,2021-05-11T12:31:46,(60%)\nmysever8,CODEA2,2021-05-11T12:39:43,(60%)\n"
             mail_to = "unknown@localhost.localdomain"
