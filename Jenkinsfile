@@ -3,7 +3,6 @@ pipeline
   agent any
   stages
   {
-      /*
     stage('Sonarqube')
     {
       environment
@@ -22,7 +21,6 @@ pipeline
         }
       }
     }
-    */
 
     stage('Notification Email')
     {
@@ -87,22 +85,6 @@ pipeline
             {
               println "There is no message to send"
             }
-         /*
-           echo "Send Notification"
-           echo "Title: ${env.MAIL_SUBJECT}"
-           echo "To: ${env.MAIL_TO}"
-           echo "Message: ${MAIL_MESSAGE}"
-           sh "printenv"
-           if( MAIL_MESSAGE != "No subject" )
-           {
-             // Send an email
-             emailext body: "${env.MAIL_MESSAGE}", subject: "${env.MAIL_SUBJECT}", to: "${env.MAIL_TO}"
-           }
-           else
-           {
-             echo "The body of the message is empty => Nothing to send"
-           }
-           */
          }
        }
     }
