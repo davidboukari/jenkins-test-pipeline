@@ -52,6 +52,10 @@ pipeline
               {
                 println "Send mail for:\n" + error_lines
               }
+              map_all_server.each
+              {
+                item -> println item
+              }
             }
             else
             {
