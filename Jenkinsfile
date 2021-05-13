@@ -48,7 +48,7 @@ pipeline
                   error_lines += "line: " + count + " - " + line + "\n"
                 } 
               }
-              if( error_lines != )
+              if( error_lines != '' )
               {
                 println "Send mail for:\n" + error_lines
               }
