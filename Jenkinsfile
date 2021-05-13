@@ -34,6 +34,7 @@ pipeline
             if (fileExists('server_mail.csv'))
             {
               echo 'server_mail.csv found'
+              error_lines = ''
               readFile('server_mail.csv').split('\n').eachWithIndex
               {
                 line, count -> def fields = line.split(';')
@@ -44,7 +45,12 @@ pipeline
                 catch( Exception e )
                 {
                   println e
+                  error_lines += "line: " + count + " - " + line + "\n"
                 } 
+              }
+              if( error_lines != )
+              {
+                println "Send mail for:\n" + error_lines
               }
             }
             else
