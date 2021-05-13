@@ -54,7 +54,7 @@ pipeline
                 println "Send mail for:\n" + error_lines
                 try
                 {
-                  emailext body: error_lines, subject: "${SERVER_FILE_MAIL}", to: 'root@localhost'
+                  emailext  to: MAIL_TO, subject: "Error in file ${SERVER_FILE_MAIL}", body: error_lines
                 }
                 catch(Exception e)
                 {
