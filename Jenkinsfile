@@ -199,14 +199,7 @@ pipeline
   post {
     always 
     {
-      try
-      {
-        emailext body: "Success From jenkins msg...", subject: "From jenkins Success job ...", to: 'root@localhost'
-      }
-      catch(Exception e)
-      {
-        println e
-      }
+      emailext body: "Success From jenkins msg...", subject: "From jenkins Success job ...", to: 'root@localhost'
     }
   }
 
