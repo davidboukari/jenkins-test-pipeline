@@ -103,7 +103,14 @@ pipeline
                 }
                 email_message = my_server_info
                 println "emailext body: " + email_message + ", subject: " + email_subject + ", to: " + email_addr
-                emailext body: "${email_message}", subject: "${email_subject}", to: "${email_addr}"
+                try
+                {
+                  emailext body: "${email_message}", subject: "${email_subject}", to: "${email_addr}"
+                }
+                catch(Exception e)
+                {
+                  println e
+                }  
               }
               line++
              }
@@ -197,8 +204,16 @@ pipeline
   }
 
   post {
-    always {
+    always 
+    {
+      try
+      {
         emailext body: "Success From jenkins msg...", subject: "From jenkins Success job ...", to: 'root@localhost'
+      }
+      catch(Exception e)
+      {
+        println e
+      }
     }
   }
 
