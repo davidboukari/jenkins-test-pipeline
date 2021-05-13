@@ -29,7 +29,7 @@ pipeline
         script
         {
           def scmVars = checkout scm
-          echo scmVars 
+          println scmVars.toString() 
           SERVER_FILE_MAIL = 'server_mail.csv'
           if( MAIL_MESSAGE != "No subject" )
           {
