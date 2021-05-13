@@ -103,14 +103,7 @@ pipeline
                 }
                 email_message = my_server_info
                 println "emailext body: " + email_message + ", subject: " + email_subject + ", to: " + email_addr
-                try
-                {
-                  emailext body: "${email_message}", subject: "${email_subject}", to: "${email_addr}"
-                }
-                catch(Exception e)
-                {
-                  println e
-                }  
+                emailext to: "${email_addr}", subject: "${email_subject}", body: "${email_message}"
               }
               line++
              }
