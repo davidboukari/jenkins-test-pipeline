@@ -28,14 +28,15 @@ pipeline
       {
         script
         {
+          SERVER_FILE_MAIL = 'server_mail.csv'
           if( MAIL_MESSAGE != "No subject" )
           {
             map_all_server = [:]
-            if (fileExists('server_mail.csv'))
+            if (fileExists(SERVER_FILE_MAIL))
             {
-              echo 'server_mail.csv found'
+              echo SERVER_FILE_MAIL + ' found OK'
               error_lines = ''
-              readFile('server_mail.csv').split('\n').eachWithIndex
+              readFile(SERVER_FILE_MAIL).split('\n').eachWithIndex
               {
                 line, count -> def fields = line.split(';')
                 try
@@ -51,6 +52,14 @@ pipeline
               if( error_lines != '' )
               {
                 println "Send mail for:\n" + error_lines
+                try
+                {
+                  emailext body: error_lines, subject: "${SERVER_FILE_MAIL}", to: 'root@localhost'
+                }
+                catch(Exception e)
+                {
+                  println e
+                }
               }
               map_all_server.each
               {
