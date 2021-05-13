@@ -54,7 +54,7 @@ pipeline
               }
               map_all_server.each
               {
-                item -> println item.toString()
+                key, value -> println key.toString() + '-' + value.toString()
               }
             }
             else
