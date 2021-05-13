@@ -57,7 +57,7 @@ pipeline
                 try
                 {
                   body_message = "File: ${scmVars.GIT_URL}/blob/${scmVars.GIT_BRANCH}/${SERVER_FILE_MAIL}\nJob: ${BUILD_URL}\n\n${error_lines}"
-                  emailext  to: MAIL_TO, subject: "Error in file ${scmVars.GIT_URL}/blob/${scmVars.GIT_BRANCH}/${SERVER_FILE_MAIL}", body: body_message
+                  emailext  to: MAIL_TO, subject: "Error in file ${SERVER_FILE_MAIL}", body: body_message
                 }
                 catch(Exception e)
                 {
