@@ -54,7 +54,7 @@ pipeline
                 println "Send mail for:\n" + error_lines
                 try
                 {
-                  emailext  to: MAIL_TO, subject: "Error in file ${SERVER_FILE_MAIL}", body: error_lines
+                  emailext  to: MAIL_TO, subject: "Error in file  $GIT_REPO_URL/blob/${GIT_BRANCH}/${SERVER_FILE_MAIL}", body: error_lines
                 }
                 catch(Exception e)
                 {
