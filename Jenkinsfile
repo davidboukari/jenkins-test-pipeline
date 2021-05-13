@@ -45,7 +45,7 @@ pipeline
                 catch( Exception e )
                 {
                   println e
-                  error_lines += "line: " + count + " - " + line + "\n"
+                  error_lines += "line:" + count + " - content:" + line + "\n"
                 } 
               }
               if( error_lines != '' )
