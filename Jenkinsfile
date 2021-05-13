@@ -28,6 +28,7 @@ pipeline
       {
         script
         {
+          def scmVars = checkout scm
           SERVER_FILE_MAIL = 'server_mail.csv'
           if( MAIL_MESSAGE != "No subject" )
           {
@@ -54,7 +55,7 @@ pipeline
                 println "Send mail for:\n" + error_lines
                 try
                 {
-                  emailext  to: MAIL_TO, subject: "Error in file  $GIT_REPO_URL/blob/${GIT_BRANCH}/${SERVER_FILE_MAIL}", body: error_lines
+                  emailext  to: MAIL_TO, subject: "Error in file  ${scmVars.GIT_REPO_URL}/blob/${scmVars.GIT_BRANCH}/${SERVER_FILE_MAIL}", body: BUILD_URL + "\n\n" + error_lines
                 }
                 catch(Exception e)
                 {
