@@ -1,0 +1,9 @@
+#String param_server_list="srv,Code,Timestamp\n
+#myserver5,CODEA2,2021-05-11T12:37:42, 90, (90%)\n
+#myserver4,CODEA2,2021-05-11T12:39:47, 85, (85%)\n
+#myserver3,CODEA2,2021-05-11T12:33:48, 87, (87%)\n
+#myserver10,CODEA2,2021-05-11T12:31:46, 93, (93%)\n
+#myserver8,CODEA2,2021-05-11T12:39:43, 130, (130%)\n"
+myserver5;OPERATION_SYSTEM-CPU;*
+myserver4;OPERATION_SYSTEM-CPU;95
+myserver3;OPERATION_SYSTEM-CPU;*
