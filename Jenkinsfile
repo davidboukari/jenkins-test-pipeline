@@ -79,6 +79,7 @@ pipeline
             String param_server_list="srv,Code,Timestamp\nmyserver5,CODEA2,2021-05-11T12:37:42, 90, (90%)\nmysever4,CODEA2,2021-05-11T12:39:47, 85, (85%)\nmyserver3,CODEA2,2021-05-11T12:33:48, 87, (87%)\nmyserver10,CODEA2,2021-05-11T12:31:46, 93, (93%)\nmysever8,CODEA2,2021-05-11T12:39:43, 130, (130%)\n"
             mail_to = "unknown@localhost.localdomain"
             mail_subject = "Metric CPU errors"
+            mail_alert_type = 'OPERATION_SYSTEM-CPU'
 
             String[] list_server_on_error = param_server_list.tokenize('\n')
             line = 0
@@ -105,14 +106,17 @@ pipeline
                   email_subject = mail_subject
                 }
                 email_message = my_server_info
-                println "emailext body: " + email_message + ", subject: " + email_subject + ", to: " + email_addr
-                try
+                if( is_acknowledged(csv_info, map_all_acknowledge_rules, mail_alert_type) )
                 {
-                  emailext to: "${email_addr}", subject: "${email_subject}", body: "${email_message}"
-                }
-                catch(Exception ex1)
-                {
-                  println ex1
+                  println "emailext body: " + email_message + ", subject: " + email_subject + ", to: " + email_addr
+                  try
+                  {
+                    emailext to: "${email_addr}", subject: "${email_subject}", body: "${email_message}"
+                  }
+                  catch(Exception ex1)
+                  {
+                    println ex1
+                  }
                 }
               }
               line++
@@ -226,6 +230,27 @@ pipeline
 
 }
 
+def is_acknowledged(alert, acknowledges, mail_alert_type)
+{
+  //mail_alert_type
+  host = alert[0]
+  percent = alert[3]
+ 
+  for( String current_host:  acknowledges)
+  {
+    if( acknowledges[0] == '*' || host == acknowledges[0] )
+    {
+      echo "Host found ${acknowledges[0]} == ${host}"
+        
+    }
+  }
+ 
+ 
+    
+  return true;    
+}
+
+
 def load_acknowledges(acknowledge_file)
 {
   map_all_acknowledge_rules = [:]
@@ -238,7 +263,12 @@ def load_acknowledges(acknowledge_file)
       line, count -> def fields = line.split(';')
       try
       {
-        map_all_acknowledge_rules[fields[0]][] = fields
+        if( !fields[0].startsWith('#') )
+        {
+          echo "OK: ${line}"    
+          map_all_acknowledge_rules[count] = fields
+        }  
+        
       }
       catch( Exception e )
       {
@@ -264,5 +294,6 @@ def load_acknowledges(acknowledge_file)
   }
   return map_all_acknowledge_rules 
 }
+
 
 
