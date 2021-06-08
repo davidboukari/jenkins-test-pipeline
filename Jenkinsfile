@@ -29,6 +29,9 @@ pipeline
         script
         {
           def scmVars = checkout scm
+
+          def map_all_acknowledge_rules = load_acknowledges(ACKNOWLEDGE_FILE)
+
           //println scmVars.toString() 
           SERVER_FILE_MAIL = 'server_mail.csv'
           if( MAIL_MESSAGE != "No subject" )
@@ -73,7 +76,7 @@ pipeline
             {
               error('Aborting: Machines.csv Not found. Failing.')
             }
-            String param_server_list="srv,Code,Timestamp\nmyserver5,CODEA2,2021-05-11T12:37:42,(60%)\nmysever4,CODEA2,2021-05-11T12:39:47,(60%)\nmyserver3,CODEA2,2021-05-11T12:33:48,(60%)\nmyserver10,CODEA2,2021-05-11T12:31:46,(60%)\nmysever8,CODEA2,2021-05-11T12:39:43,(60%)\n"
+            String param_server_list="srv,Code,Timestamp\nmyserver5,CODEA2,2021-05-11T12:37:42, 90, (90%)\nmysever4,CODEA2,2021-05-11T12:39:47, 85, (85%)\nmyserver3,CODEA2,2021-05-11T12:33:48, 87, (87%)\nmyserver10,CODEA2,2021-05-11T12:31:46, 93, (93%)\nmysever8,CODEA2,2021-05-11T12:39:43, 130, (130%)\n"
             mail_to = "unknown@localhost.localdomain"
             mail_subject = "Metric CPU errors"
 
@@ -103,7 +106,14 @@ pipeline
                 }
                 email_message = my_server_info
                 println "emailext body: " + email_message + ", subject: " + email_subject + ", to: " + email_addr
-                emailext to: "${email_addr}", subject: "${email_subject}", body: "${email_message}"
+                try
+                {
+                  emailext to: "${email_addr}", subject: "${email_subject}", body: "${email_message}"
+                }
+                catch(Exception ex1)
+                {
+                  println ex1
+                }
               }
               line++
              }
@@ -199,9 +209,60 @@ pipeline
   post {
     always 
     {
-      emailext body: "Success From jenkins msg...", subject: "From jenkins Success job ...", to: 'root@localhost'
+      script
+      {
+        try
+        {
+          emailext body: "Success From jenkins msg...", subject: "From jenkins Success job ...", to: 'root@localhost'
+        }
+        catch(Exception ex)
+        {
+          println ex    
+        }
+    
+      }
     }
   }
 
 }
+
+def load_acknowledges(acknowledge_file)
+{
+  map_all_acknowledge_rules = [:]
+  if (fileExists(acknowledge_file))
+  {
+    echo acknowledge_file + ' found OK'
+    error_lines = ''
+    readFile(acknowledge_file).split('\n').eachWithIndex
+    {
+      line, count -> def fields = line.split(';')
+      try
+      {
+        map_all_acknowledge_rules[fields[0]][] = fields
+      }
+      catch( Exception e )
+      {
+        println e
+        error_lines += "line:" + count + " - content:" + line + "\n"
+      }
+    }
+    if( error_lines != '' )
+    {
+      println "Send mail for:\n" + error_lines
+/*
+      try
+      {
+        body_message = "File: ${scmVars.GIT_URL}/blob/${scmVars.GIT_BRANCH}/${SERVER_FILE_MAIL}\nJob: ${BUILD_URL}\n\n${error_lines}"
+        emailext  to: MAIL_TO, subject: "Error in file ${SERVER_FILE_MAIL}", body: body_message
+      }
+      catch(Exception e)
+      {
+        println e
+      }
+*/ 
+    }    
+  }
+  return map_all_acknowledge_rules 
+}
+
 
