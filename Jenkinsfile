@@ -3,6 +3,7 @@ pipeline
   agent any
   stages
   {
+/*
     stage('Sonarqube')
     {
       environment
@@ -21,7 +22,7 @@ pipeline
         }
       }
     }
-
+*/
     stage('Notification Email')
     {
       steps
@@ -88,8 +89,10 @@ pipeline
               if( line > 0 )
               {
                 println my_server_info;
-                my_server = my_server_info.tokenize(',')[0]
+                my_current_server = my_server_info.tokenize(',')
+                my_server = my_current_server[0]
                 println "--->" + my_server
+                is_ack = false
                 try
                 {
                   // Find mail
@@ -98,6 +101,8 @@ pipeline
                   // Add the Team to the subject 
                   email_subject = mail_subject + ' - (' +  csv_info[3]  + ')'
                   println "------------>" + email_addr
+                  
+                  is_ack = is_acknowledged( my_current_server, map_all_acknowledge_rules, mail_alert_type) 
                 }
                 catch( Exception e)
                 {
@@ -106,7 +111,7 @@ pipeline
                   email_subject = mail_subject
                 }
                 email_message = my_server_info
-                if( is_acknowledged(csv_info, map_all_acknowledge_rules, mail_alert_type) )
+                if(  !is_ack )
                 {
                   println "emailext body: " + email_message + ", subject: " + email_subject + ", to: " + email_addr
                   try
@@ -232,22 +237,48 @@ pipeline
 
 def is_acknowledged(alert, acknowledges, mail_alert_type)
 {
+  echo "is_acknowledged()"    
   //mail_alert_type
   host = alert[0]
   percent = alert[3]
- 
-  for( String current_host:  acknowledges)
+  
+  /*
+  echo "host=" + host
+  echo "percent" + percent
+  println "-------------------------------------------------"
+  println acknowledges
+  println "-------------------------------------------------"
+  */
+  for( ack in acknowledges )
   {
-    if( acknowledges[0] == '*' || host == acknowledges[0] )
+/*
+    println "key=" + ack.key  
+    println "value=" + ack.value
+*/
+    ack_host = ack.value[0]
+    ack_alert = ack.value[1]
+    ack_value = ack.value[2]
+/*    
+    echo "--> ack_host=" + ack_host 
+    echo "--> ack_alert=" + ack_alert
+    echo "--> ack_value=" + ack_value
+*/    
+    if( ack_host == '*' || host == ack_host)
     {
-      echo "Host found ${acknowledges[0]} == ${host}"
-        
+      //echo "Host found ${ack_host} == ${host}"
+      if( ack_alert == '*' || ack_alert == mail_alert_type )
+      {
+          if(ack_value == '*' || ack_value >= percent)
+          {
+              echo "host=${host}, percent=${percent}  is acknowledged by ack_host=${ack_host}, ack_alert=${ack_alert}, ack_value=${ack_value}"
+              echo "is_acknowledged() return true"
+              return true
+          }
+      }
     }
   }
- 
- 
-    
-  return true;    
+  echo "is_acknowledged() return false"
+  return false;    
 }
 
 
@@ -294,6 +325,4 @@ def load_acknowledges(acknowledge_file)
   }
   return map_all_acknowledge_rules 
 }
-
-
 
