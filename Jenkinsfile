@@ -29,7 +29,7 @@ pipeline
         script
         {
           def scmVars = checkout scm
-
+          // Call the function
           def map_all_acknowledge_rules = load_acknowledges(ACKNOWLEDGE_FILE)
 
           //println scmVars.toString() 
