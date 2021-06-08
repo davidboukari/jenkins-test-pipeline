@@ -29,6 +29,9 @@ pipeline
       {
         script
         {
+          float my_float = "123 ".trim() as float
+          println "my_float=" + my_float
+            
           def scmVars = checkout scm
           // Call the function
           def map_all_acknowledge_rules = load_acknowledges(ACKNOWLEDGE_FILE)
@@ -239,12 +242,14 @@ def is_acknowledged(alert, acknowledges, mail_alert_type)
 {
   echo "is_acknowledged()"    
   //mail_alert_type
-  host = alert[0]
-  percent = alert[3]
+  host = alert[0].trim()
+  float percent = alert[3].trim() as float 
   
   /*
   echo "host=" + host
-  echo "percent" + percent
+  echo "percent" + 
+  
+  
   println "-------------------------------------------------"
   println acknowledges
   println "-------------------------------------------------"
@@ -255,24 +260,42 @@ def is_acknowledged(alert, acknowledges, mail_alert_type)
     println "key=" + ack.key  
     println "value=" + ack.value
 */
-    ack_host = ack.value[0]
-    ack_alert = ack.value[1]
-    ack_value = ack.value[2]
-/*    
+    ack_host = ack.value[0].trim()
+    ack_alert = ack.value[1].trim()
+    ack_value = ack.value[2].trim()
+   /* if( ack_value_tmp != '*' )
+    {
+        float ack_value =  ack_value_tmp as float 
+    }
+    else
+    {
+       ack_value =  '*'
+    }*/
+   /*
     echo "--> ack_host=" + ack_host 
     echo "--> ack_alert=" + ack_alert
-    echo "--> ack_value=" + ack_value
-*/    
+    echo "----------------> ack_value=" + ack_value
+   */
     if( ack_host == '*' || host == ack_host)
     {
       //echo "Host found ${ack_host} == ${host}"
       if( ack_alert == '*' || ack_alert == mail_alert_type )
       {
-          if(ack_value == '*' || ack_value >= percent)
+          if(ack_value == '*' )
           {
               echo "host=${host}, percent=${percent}  is acknowledged by ack_host=${ack_host}, ack_alert=${ack_alert}, ack_value=${ack_value}"
               echo "is_acknowledged() return true"
               return true
+          }
+          else
+          {
+              float ack_value_float = ack_value as float
+              if(ack_value_float <= percent)
+              {
+                echo "host=${host}, percent=${percent}  is acknowledged by ack_host=${ack_host}, ack_alert=${ack_alert}, ack_value=${ack_value}"
+                echo "is_acknowledged() return true"
+                return true  
+              }
           }
       }
     }
@@ -325,4 +348,5 @@ def load_acknowledges(acknowledge_file)
   }
   return map_all_acknowledge_rules 
 }
+
 
