@@ -7,3 +7,4 @@
 myserver5;OPERATION_SYSTEM-CPU;*
 myserver10;OPERATION_SYSTEM-CPU;89
 myserver3;OPERATION_SYSTEM-CPU;*
+myserver4;*;90
