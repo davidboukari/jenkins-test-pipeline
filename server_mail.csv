@@ -1,20 +1,20 @@
 VM;Env;Code;Team;Mail
-myserver1;DEV;CODEA1;testeur;'server1 mail' <root@localhost.localdomain>
-myserver2;DEV;CODEA2;testeur;'server2 mail' <root@localhost.localdomain>
-myserver3;UAT;CODEA3;galaxy;'server3 mail' <root@localhost.localdomain>
-myserver4;DEV;CODEA4;galaxy1;'server4 mail' <root@localhost.localdomain>
-myserver5;UAT;CODEA5;team1;'server5 mail' <root@localhost.localdomain>
+myserver1;DEV;CODEA1;testeur;'server1 mail' <teamserver1@localhost.localdomain>
+myserver2;DEV;CODEA2;testeur;'server2 mail' <teamserver2@localhost.localdomain>
+myserver3;UAT;CODEA3;galaxy;'server3 mail' <teamserver3@localhost.localdomain>
+myserver4;DEV;CODEA4;galaxy1;'server4 mail' <teamserver4@localhost.localdomain>
+myserver5;UAT;CODEA5;team1;'server5 mail' <teamserver5@localhost.localdomain>
 
-myserver6;DEV;CODEA6;team1;'server5 mail' <root@localhost.localdomain>
+myserver6;DEV;CODEA6;team1;'server5 mail' <teamserver6@localhost.localdomain>
 ;;
-myserver7;DEV;CODEA7;team1;'server4 mail' <root@localhost.localdomain>
-myserver8;DEV;CODEA8;team1;'server3 mail' <root@localhost.localdomain>
-myserver9;UAT;CODEA9;team2;'server2 mail' <root@localhost.localdomain>
-myserver10;UAT;CODE10;team3;'server1 mail' <root@localhost.localdomain>
-myserver11;DEV;CODEA11;team4;'server1 mail' <root@localhost.localdomain>
-myserver12;UAT;CODEA12;team5;'server5 mail' <root@localhost.localdomain>
-myserver13;DEV;CODEA13;teamZ;'server6 mail' <root@localhost.localdomain>
-myserver14;DEV;CODEA14;team17;'server2 mail' <root@localhost.localdomain>
+myserver7;DEV;CODEA7;team1;'server4 mail' <teamserver7@localhost.localdomain>
+myserver8;DEV;CODEA8;team1;'server3 mail' <teamserver8@localhost.localdomain>
+myserver9;UAT;CODEA9;team2;'server2 mail' <teamserver9@localhost.localdomain>
+myserver10;UAT;CODE10;team3;'server1 mail' <teamserver10@localhost.localdomain>
+myserver11;DEV;CODEA11;team4;'server1 mail' <teamserver11@localhost.localdomain>
+myserver12;UAT;CODEA12;team5;'server5 mail' <teamserver12@localhost.localdomain>
+myserver13;DEV;CODEA13;teamZ;'server6 mail' <teamserver13@localhost.localdomain>
+myserver14;DEV;CODEA14;team17;'server2 mail' <teamserver14@localhost.localdomain>
 
 test test
 ;;;;
