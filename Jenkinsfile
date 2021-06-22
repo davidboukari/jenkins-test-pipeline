@@ -3,7 +3,6 @@ pipeline
   agent any
   stages
   {
-/*
     stage('Sonarqube')
     {
       environment
@@ -22,7 +21,7 @@ pipeline
         }
       }
     }
-*/
+/*
     stage('Notification Email')
     {
       steps
@@ -137,6 +136,7 @@ pipeline
         }
       }
     }
+*/
 /*
     stage('Notification Mattermost')
     {
