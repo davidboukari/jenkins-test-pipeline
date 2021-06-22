@@ -1,0 +1,6 @@
+colorful==0.5.4
+csv-reader==1.2.0
+glob2==0.7
+pprintpp==0.4.0
+prettyprinter==0.18.0
+Pygments==2.9.0
