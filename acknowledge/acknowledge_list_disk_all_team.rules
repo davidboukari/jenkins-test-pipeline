@@ -1,0 +1,6 @@
+myserver10;OPERATION_SYSTEM-CPU;95
+myserver5; OPERATION_SYSTEM-DISK;  /bigdata/disk1; 70
+#myserver4; OPERATION_SYSTEM-DISK;  /bigdata/disk1; 80  
+myserver3; OPERATION_SYSTEM-DISK;  /ftp1; 87
+myserver10; OPERATION_SYSTEM-DISK;  /nfs/nfs1; 93 
+myserver8; OPERATION_SYSTEM-DISK; /rootvg; 130  
