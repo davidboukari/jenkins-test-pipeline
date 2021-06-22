@@ -3,7 +3,10 @@ import csv
 import glob
 from prettyprinter import pprint
 
-#python3  parser_watcher.py   'davidboukari@gmail.com' 'srv,Code,Timestamp\nmyserver5,CODEA2,2021-05-11T12:37:42, 90, (90%)\nmyserver4,CODEA2,2021-05-11T12:39:47, 85, (85%)\nmyserver3,CODEA2,2021-05-11T12:33:48, 87, (87%)\nmyserver10,CODEA2,2021-05-11T12:31:46, 93, (93%)\nmysever8,CODEA2,2021-05-11T12:39:43, 130, (130%)\n' 'Alert CPU' 'server_mail.csv' 'OPERATION_SYSTEM-CPU' acknowledge
+
+# To test
+# python3  parser_watcher.py   'davidboukari@gmail.com' 'srv,Code,Timestamp\nmyserver5,CODEA2,2021-05-11T12:37:42, 90, (90%)\nmyserver4,CODEA2,2021-05-11T12:39:47, 85, (85%)\nmyserver3,CODEA2,2021-05-11T12:33:48, 87, (87%)\nmyserver10,CODEA2,2021-05-11T12:31:46, 93, (93%)\nmysever8,CODEA2,2021-05-11T12:39:43, 130, (130%)\n' 'Alert CPU' 'server_mail.csv' 'OPERATION_SYSTEM-CPU' acknowledge
+
 
 def get_dico_from_csv_file(csv_file):
   print(f'get_dico_from_csv_file({csv_file})')
@@ -35,8 +38,8 @@ def is_acknowledged(alert, acknowledges, mail_alert_type):
   #print(f'percent={percent}') 
   for ack_file in acknowledges:
     for ack in acknowledges[ack_file]:
-      pprint( ack, width=1 )
-      print("acknowledges ------")
+      #pprint( ack, width=1 )
+      #print("acknowledges ------")
       ack_host = acknowledges[ack_file][ack][0].strip()
       ack_alert = acknowledges[ack_file][ack][1].strip()
       ack_value = acknowledges[ack_file][ack][2].strip()
@@ -46,17 +49,17 @@ def is_acknowledged(alert, acknowledges, mail_alert_type):
       if ack_host == '*' or host == ack_host:
         if ack_alert == '*' or ack_alert == mail_alert_type:
           if ack_value == '*':
-            print(f'host={host}, percent={percent}  is acknowledged by ack_host={ack_host}, ack_alert={ack_alert}, ack_value={ack_value}')
+            print(f'host={host}, percent={percent}  is acknowledged by rule_file={ack_file}, ack_host={ack_host}, ack_alert={ack_alert}, ack_value={ack_value}')
             print(f'is_acknowledged() return true')
-            return true
+            return True
           else:
             ack_value_float = float(ack_value)
             if ack_value_float <= percent:
-              print(f'host={host}, percent={percent}  is acknowledged by ack_host={ack_host}, ack_alert={ack_alert}, ack_value={ack_value}')
+              print(f'host={host}, percent={percent}  is acknowledged by rule_file={ack_file}, ack_host={ack_host}, ack_alert={ack_alert}, ack_value={ack_value}')
               print(f'is_acknowledged() return true')
-              return true  
-  print("is_acknowledged() return false")
-  return false;    
+              return True  
+  print(f'host={host}, percent={percent} is_acknowledged() return false')
+  return False;    
 
 if __name__ == "__main__":
   MAIL_TO = sys.argv[1] 
@@ -105,8 +108,8 @@ if __name__ == "__main__":
               #print('----------------------')
               is_ack = is_acknowledged( info_alert, acknowledge_rules_list, MAIL_METRIC) 
               print(f'is_ack={is_ack}')                
-            except:
-              print(f'Error: {info_alert[0]}') 
+            except Exception as e:
+              print(e) 
             
         alert_current_number += 1
    
