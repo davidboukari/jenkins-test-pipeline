@@ -92,6 +92,7 @@ def get_mail_from_hostname(hostname, server_team_info, default_email):
     try:
         email = server_team_info[hostname][4]
     except Exception as e:
+        print(e)
         email = default_email
     return email
 
@@ -135,8 +136,8 @@ def main(argv):
                 info_alert = current_alert.split(',')
                 if info_alert is not None:
                     try:
-                        server_infos = server_team_info[info_alert[0]]
-                        my_current_server = server_infos[0]
+                        # server_infos = server_team_info[info_alert[0]]
+                        # my_current_server = server_infos[0]
                         is_ack = is_acknowledged(info_alert,
                                                  acknowledge_rules_list,
                                                  MAIL_METRIC,
