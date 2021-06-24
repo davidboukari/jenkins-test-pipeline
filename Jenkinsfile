@@ -8,7 +8,7 @@ pipeline
       steps
       {
         sh 'pip3 install --upgrade --user tox'
-        sh 'tox -r --'
+        sh 'tox -r -- '
       }
     }
     stage('Sonarqube')
