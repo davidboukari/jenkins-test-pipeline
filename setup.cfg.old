@@ -1,0 +1,22 @@
+[metadata]
+name = jenkins-test-pipeline
+version = 0.0.1
+author = David Boukari
+author_email = davidboukari@gmail.com
+description = A small example package
+long_description = file: README.md
+long_description_content_type = text/markdown
+url = https://github.com/davidboukari/jenkins-test-pipeline.git
+classifiers =
+    Programming Language :: Python :: 3
+    License :: OSI Approved :: MIT License
+    Operating System :: OS Independent
+
+[options]
+package_dir =
+    = app
+packages = jenkins-test-pipeline:
+python_requires = >=3.6
+
+[options.packages.find]
+where = app

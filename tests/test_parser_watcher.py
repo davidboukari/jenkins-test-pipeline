@@ -1,5 +1,5 @@
 import pytest
-from app.bin.parser_watcher import *
+from app.bin.parser_watcher import main
 
 '''Test parser_watcher'''
 
