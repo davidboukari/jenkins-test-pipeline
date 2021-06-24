@@ -2,11 +2,9 @@ import os
 import sys
 import csv
 import glob
-from prettyprinter import pprint
 
 
 def get_dico_from_csv_file(csv_file):
-
     print(f'-----> get_dico_from_csv_file({csv_file})')
     dico = {}
     current_line = 0
@@ -16,13 +14,13 @@ def get_dico_from_csv_file(csv_file):
             try:
                 if row[0][0] != '#':
                     dico[row[0]] = row
-            except:
+            except Exception as e:
+                print(e)
                 print(f'Error: line {current_line+1}' + ', '.join(row))
             current_line += 1
     return dico
-"""
-high level support for doing this and that.
-"""
+
+
 def is_acknowledged(alert, acknowledges, mail_alert_type, multivalue_alert_type):
     print('is_acknowledged()')
     host = alert[0].strip()
@@ -31,7 +29,7 @@ def is_acknowledged(alert, acknowledges, mail_alert_type, multivalue_alert_type)
         print('Multivalue')
         is_multi = True
         alert_key = alert[3].strip()
-        alert_percent = float( alert[4].strip() )
+        alert_percent = float(alert[4].strip())
         print(f'alert_key={alert_key}')
         print(f'alert_percent={alert_percent}')
     else:
@@ -46,8 +44,8 @@ def is_acknowledged(alert, acknowledges, mail_alert_type, multivalue_alert_type)
             ack_alert = acknowledges[ack_file][ack][1].strip()
             ack_value = acknowledges[ack_file][ack][2].strip()
             ack_value_1 = 1000
-            #print(acknowledges[ack_file][ack])
-            #print(len(acknowledges[ack_file][ack]))
+#            print(acknowledges[ack_file][ack])
+#            print(len(acknowledges[ack_file][ack]))
             if is_multi and len(acknowledges[ack_file][ack]) > 3:
                 ack_value_1 = float(acknowledges[ack_file][ack][3].strip())
 
@@ -63,7 +61,7 @@ def is_acknowledged(alert, acknowledges, mail_alert_type, multivalue_alert_type)
                     # 2 values like disk usage
                     if is_multi:
                         print('test multi')
-                        if ack_value == alert_key and  ack_value_1 <= alert_percent:
+                        if ack_value == alert_key and ack_value_1 <= alert_percent:
                             print(f'case 2: host={host}, alert_key={alert_key}  ,'
                                   f'alert_percent={alert_percent} is acknowledged by '
                                   f'rule_file={ack_file}, '
@@ -93,9 +91,10 @@ def get_mail_from_hostname(hostname, server_team_info, default_email):
     email = ''
     try:
         email = server_team_info[hostname][4]
-    except:
+    except Exception as e:
         email = default_email
     return email
+
 
 def main(argv):
     os.environ['PYTHON_MAIL_LIST_RETURN'] = ""
@@ -166,6 +165,7 @@ def main(argv):
             alert_current_number += 1
     print(f"os.environ['PYTHON_MAIL_LIST_RETURN']={os.environ['PYTHON_MAIL_LIST_RETURN']}")
     return 0
+
 
 if __name__ == "__main__":
     main(sys.argv)

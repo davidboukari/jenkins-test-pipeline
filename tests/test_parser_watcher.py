@@ -31,4 +31,3 @@ class TestParserWatcher:
     def test_main(argv):
         exec_code = main(argv)
         assert exec_code == 0
-

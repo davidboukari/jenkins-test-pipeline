@@ -13,3 +13,9 @@ python3  parser_watcher.py   'davidboukari@gmail.com' 'srv,Code,Timestamp\nmyser
 ```
 pytest -v --tb=short  --cov=app -cov-branch --cov-report xml:coverage.xml --junitxml report.xml 
 ```
+
+### flake8
+```
+ flake8 --max-line-length=150 --max-complexity=10
+
+```
