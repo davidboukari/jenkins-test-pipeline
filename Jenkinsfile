@@ -3,6 +3,14 @@ pipeline
   agent any
   stages
   {
+    stage('Unit Tests')
+    {
+      steps
+      {
+        sh 'pip3 install --upgrade --user tox'
+        sh 'tox -r --'
+      }
+    }
     stage('Sonarqube')
     {
       environment

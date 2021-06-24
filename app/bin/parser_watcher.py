@@ -6,6 +6,7 @@ from prettyprinter import pprint
 
 
 def get_dico_from_csv_file(csv_file):
+
     print(f'-----> get_dico_from_csv_file({csv_file})')
     dico = {}
     current_line = 0
@@ -19,7 +20,9 @@ def get_dico_from_csv_file(csv_file):
                 print(f'Error: line {current_line+1}' + ', '.join(row))
             current_line += 1
     return dico
-
+"""
+high level support for doing this and that.
+"""
 def is_acknowledged(alert, acknowledges, mail_alert_type, multivalue_alert_type):
     print('is_acknowledged()')
     host = alert[0].strip()
@@ -51,8 +54,10 @@ def is_acknowledged(alert, acknowledges, mail_alert_type, multivalue_alert_type)
             if ack_host == '*' or host == ack_host:
                 if ack_alert == '*' or ack_alert == mail_alert_type:
                     if ack_value == '*':
-                        print(f'case 1: host={host}, percent={percent}  is acknowledged by rule_file={ack_file}, '
-                              f'ack_host={ack_host}, ack_alert={ack_alert}, ack_value={ack_value}')
+                        print(f'case 1: host={host}, percent={percent}  is acknowledged by '
+                              f'rule_file={ack_file}, '
+                              f'ack_host={ack_host}, ack_alert={ack_alert}, '
+                              f'ack_value={ack_value}')
                         return True
                 else:
                     # 2 values like disk usage
@@ -60,8 +65,10 @@ def is_acknowledged(alert, acknowledges, mail_alert_type, multivalue_alert_type)
                         print('test multi')
                         if ack_value == alert_key and  ack_value_1 <= alert_percent:
                             print(f'case 2: host={host}, alert_key={alert_key}  ,'
-                                  f'alert_percent={alert_percent} is acknowledged by rule_file={ack_file}, '
-                                  f'ack_host={ack_host}, ack_alert={ack_alert}, ack_value={ack_value}, '
+                                  f'alert_percent={alert_percent} is acknowledged by '
+                                  f'rule_file={ack_file}, '
+                                  f'ack_host={ack_host}, ack_alert={ack_alert}, '
+                                  f'ack_value={ack_value}, '
                                   f'ack_value_1={ack_value_1}')
                             return True
                     else:
@@ -69,11 +76,14 @@ def is_acknowledged(alert, acknowledges, mail_alert_type, multivalue_alert_type)
                         # 1 value
                         ack_value_float = float(ack_value)
                         if ack_value_float <= percent:
-                            print(f'case 3: host={host}, percent={percent}  is acknowledged by rule_file={ack_file}, '
-                                  f'ack_host={ack_host}, ack_alert={ack_alert}, ack_value={ack_value}')
+                            print(f'case 3: host={host}, percent={percent}  is acknowledged by '
+                                  f'rule_file={ack_file}, '
+                                  f'ack_host={ack_host}, ack_alert={ack_alert}, '
+                                  f'ack_value={ack_value}')
                             return True
     if is_multi:
-        print(f'host={host}, alert_key={alert_key}  ,alert_percent={alert_percent}, is_acknowledged() return false')
+        print(f'host={host}, alert_key={alert_key}  ,alert_percent={alert_percent}, '
+              f'is_acknowledged() return false')
     else:
         print(f'host={host}, percent={percent} is_acknowledged() return false')
     return False
@@ -112,7 +122,8 @@ def main(argv):
     acknowledge_rules_list = {}
     if list_rules_files is not None:
         for i in range(0, len(list_rules_files)):
-            acknowledge_rules_list[list_rules_files[i]] = get_dico_from_csv_file(list_rules_files[i])
+            acknowledge_rules_list[list_rules_files[i]] = \
+                get_dico_from_csv_file(list_rules_files[i])
 
     # Parse Message
     alert_lines = MAIL_MESSAGE.split('\n')
@@ -127,7 +138,10 @@ def main(argv):
                     try:
                         server_infos = server_team_info[info_alert[0]]
                         my_current_server = server_infos[0]
-                        is_ack = is_acknowledged(info_alert, acknowledge_rules_list, MAIL_METRIC, multivalue_alert_type)
+                        is_ack = is_acknowledged(info_alert,
+                                                 acknowledge_rules_list,
+                                                 MAIL_METRIC,
+                                                 multivalue_alert_type)
                         print(f'is_ack={is_ack}')
                     except Exception as e:
                         print('1 - Error: --------')
@@ -135,16 +149,23 @@ def main(argv):
                     if is_ack:
                         print("True => Nothing to do")
                     else:
-                        server_mail_address = get_mail_from_hostname(info_alert[0], server_team_info, DEFAULT_MAIL_TO)
+                        server_mail_address = get_mail_from_hostname(info_alert[0],
+                                                                     server_team_info,
+                                                                     DEFAULT_MAIL_TO)
                         if os.environ['PYTHON_MAIL_LIST_RETURN'] == '':
-                            os.environ['PYTHON_MAIL_LIST_RETURN'] = current_alert + ',' + server_mail_address + "\n"
+                            os.environ['PYTHON_MAIL_LIST_RETURN'] = current_alert \
+                                                                    + ',' \
+                                                                    + server_mail_address \
+                                                                    + "\n"
                         else:
-                            os.environ['PYTHON_MAIL_LIST_RETURN'] += current_alert + ',' + server_mail_address + "\n"
+                            os.environ['PYTHON_MAIL_LIST_RETURN'] += current_alert \
+                                                                     + ',' \
+                                                                     + server_mail_address \
+                                                                     + "\n"
                             print("False ---")
             alert_current_number += 1
     print(f"os.environ['PYTHON_MAIL_LIST_RETURN']={os.environ['PYTHON_MAIL_LIST_RETURN']}")
     return 0
 
 if __name__ == "__main__":
-  main(sys.argv)
-
+    main(sys.argv)
