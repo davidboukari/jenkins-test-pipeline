@@ -1,5 +1,21 @@
 # jenkins-test-pipeline
 
+## Packages
+```
+pip install tox
+pip install setuptools 
+pip install setuptools 
+pip install --upgrade pip
+pip install corage
+pip install coverage
+pip install pytest-cov
+pip install flake8
+pip install prettyprinter 
+pip install pylint
+pip install setuptools
+pip install wheel 
+```
+
 ## To test
 ```
 
@@ -17,5 +33,13 @@ pytest -v --tb=short  --cov=app -cov-branch --cov-report xml:coverage.xml --juni
 ### flake8
 ```
  flake8 --max-line-length=150 --max-complexity=10
+
+```
+
+
+## Build a package
+```
+python setup.py sdist
+python setup.py bdist_wheel
 
 ```
